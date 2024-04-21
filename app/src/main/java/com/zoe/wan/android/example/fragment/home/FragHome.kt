@@ -48,8 +48,15 @@ class FragHome : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
     }
 
+    private fun refresh(){
+        binding?.homeRefreshView?.setOnRefreshListener{
+            viewModel?.initData()
+            it.finishRefresh()
+        }
+    }
+
     private fun initListView() {
-        LoadingUtils.showLoading()
+
         val manager = LinearLayoutManager(context)
         manager.orientation = LinearLayoutManager.VERTICAL
         binding?.homeTabListView?.layoutManager = manager
@@ -64,6 +71,7 @@ class FragHome : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
                 }
             }
         })
+        refresh()
         //添加分割线
 //        binding?.homeTabListView?.addItemDecoration(
 //            DividerItemDecoration(

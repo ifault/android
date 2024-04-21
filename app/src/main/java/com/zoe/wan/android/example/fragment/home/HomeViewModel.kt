@@ -26,15 +26,23 @@ class HomeViewModel(application: Application) : BaseViewModel(application) {
     init {
         getHomeList()
     }
+
+    fun initData(){
+        getHomeList()
+    }
+
     private val refreshIntervalMillis = 10 * 1000L
     private fun getHomeList() {
         viewModelScope.launch {
-            while (true) {
-                var data: HomeListData? = Repository.getHomeList()
-                var list = data?.items ?: emptyList()
-                homeListData.postValue(list)
-                delay(refreshIntervalMillis)
-            }
+            var data: HomeListData? = Repository.getHomeList()
+            var list = data?.items ?: emptyList()
+            homeListData.postValue(list)
+//            while (true) {
+//                var data: HomeListData? = Repository.getHomeList()
+//                var list = data?.items ?: emptyList()
+//                homeListData.postValue(list)
+//                delay(refreshIntervalMillis)
+//            }
         }
     }
 

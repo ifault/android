@@ -17,12 +17,6 @@ import kotlinx.coroutines.launch
 class HomeViewModel(application: Application) : BaseViewModel(application) {
 
     var homeListData = SingleLiveEvent<List<HomeListItemData?>?>()
-//    private val handler = Handler(Looper.getMainLooper())
-//    private val runnable = Runnable {
-//        LogUtils.d("刷新数据")
-//        getHomeList()
-//        handler.postDelayed(runnable, 10000)
-//    }
     init {
         getHomeList()
     }
@@ -31,24 +25,23 @@ class HomeViewModel(application: Application) : BaseViewModel(application) {
         getHomeList()
     }
 
-    private val refreshIntervalMillis = 10 * 1000L
+//    private val refreshIntervalMillis = 10 * 1000L
     private fun getHomeList() {
-        viewModelScope.launch {
+        launch({
             var data: HomeListData? = Repository.getHomeList()
             var list = data?.items ?: emptyList()
             homeListData.postValue(list)
-//            while (true) {
-//                var data: HomeListData? = Repository.getHomeList()
-//                var list = data?.items ?: emptyList()
-//                homeListData.postValue(list)
-//                delay(refreshIntervalMillis)
-//            }
-        }
+        }, onError = {
+            homeListData.postValue(emptyList())
+        }, onComplete = {
+        })
     }
 
     fun pay(id: String, callback: (state: Boolean) -> Unit) {
-        viewModelScope.launch {
+        launch({
+            // 支付的业务逻辑
+        }, onComplete = {
             callback.invoke(true)
-        }
+        })
     }
 }

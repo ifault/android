@@ -3,6 +3,7 @@ package com.zoe.wan.base.loading
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
+import com.blankj.utilcode.util.ActivityUtils
 import java.lang.ref.WeakReference
 
 object LoadingUtils {
@@ -38,11 +39,10 @@ object LoadingUtils {
     }
 
     fun showLoading() {
-        if (loadingDialog == null) {
-            this.activity?.let {
-                it.get()?.let { c -> loadingDialog = LoadingDialog(c) }
-            }
+        if(loadingDialog != null && loadingDialog?.isShowing == true){
+            return
         }
+        loadingDialog = LoadingDialog(ActivityUtils.getTopActivity())
         loadingDialog?.showLoading()
     }
 

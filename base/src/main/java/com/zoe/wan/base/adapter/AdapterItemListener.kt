@@ -11,7 +11,5 @@ abstract class AdapterItemListener<T> {
  * 点击收藏/取消收藏
  */
 abstract class AdapterCollectListener<T> {
-    abstract fun collect(position: Int, id: String)
-
-    abstract fun cancelCollect(position: Int, id: String)
+    abstract fun pay(position: Int, uuid: String)
 }

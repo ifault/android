@@ -4,8 +4,8 @@
     <data>
 
         <variable
-            name="tabVm"
-            type="com.zoe.wan.android.example.TabViewModel" />
+            name="homeVm"
+            type="com.zoe.wan.android.example.activity.home.TabViewModel" />
     </data>
 
 

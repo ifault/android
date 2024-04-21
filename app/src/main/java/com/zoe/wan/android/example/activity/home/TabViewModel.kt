@@ -1,4 +1,4 @@
-package com.zoe.wan.android.example
+package com.zoe.wan.android.example.activity.home
 
 import android.app.Application
 import com.zoe.wan.base.BaseViewModel

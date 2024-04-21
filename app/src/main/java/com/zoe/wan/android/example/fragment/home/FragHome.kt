@@ -1,5 +1,6 @@
 package com.zoe.wan.android.fragment.home
 
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.youth.banner.util.LogUtils
 import com.zoe.wan.android.example.R
@@ -70,15 +71,15 @@ class FragHome : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
                     }
                 }
             }
+
+            override fun startMonitor() {
+                viewModel?.startMonitor()
+            }
         })
         refresh()
-        //添加分割线
-//        binding?.homeTabListView?.addItemDecoration(
-//            DividerItemDecoration(
-//                context,
-//                LinearLayoutManager.VERTICAL
-//            )
-//        )
+//        binding?.startMonitor?.setOnClickListener(){
+//            Toast.makeText(it.context, "开启监控", Toast.LENGTH_LONG).show()
+//        }
     }
 
 }

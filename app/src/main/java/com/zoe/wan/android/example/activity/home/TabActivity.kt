@@ -8,6 +8,7 @@ import com.zoe.wan.android.example.BR
 import com.zoe.wan.android.example.R
 import com.zoe.wan.android.example.databinding.ActivityTabBinding
 import com.zoe.wan.android.fragment.home.FragHome
+import com.zoe.wan.android.fragment.settting.FragSetting
 import com.zoe.wan.base.BaseActivity
 import com.zoe.wan.base.adapter.Pager2Adapter
 import com.zoe.wan.base.tab.NavigationBottomBar
@@ -48,10 +49,7 @@ class TabActivity : BaseActivity<ActivityTabBinding, TabViewModel>() {
     private fun initPage(){
         val tabPages = mutableListOf<Fragment>()
         tabPages.add(FragHome())
-//        tabPages.add(FragAccount())
-//        tabPages.add(FragHistory())
-//        tabPages.add(FragHome())
-
+        tabPages.add(FragSetting())
         val pager2Adapter = Pager2Adapter(this)
         pager2Adapter.setData(tabPages)
         binding?.tabViewPager2?.offscreenPageLimit = ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT

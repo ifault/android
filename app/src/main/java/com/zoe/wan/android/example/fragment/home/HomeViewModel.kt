@@ -17,6 +17,7 @@ import kotlinx.coroutines.launch
 class HomeViewModel(application: Application) : BaseViewModel(application) {
 
     var homeListData = SingleLiveEvent<List<HomeListItemData?>?>()
+    var isMonitrong = false
     init {
         getHomeList()
     }
@@ -43,5 +44,9 @@ class HomeViewModel(application: Application) : BaseViewModel(application) {
         }, onComplete = {
             callback.invoke(true)
         })
+    }
+
+    fun startMonitor(){
+        isMonitrong = !isMonitrong
     }
 }

@@ -68,14 +68,14 @@ class HomeListAdapter : BaseRecyclerAdapter<HomeListItemData?, BaseViewHolder<*>
             val item: HomeListItemData? = getDataList()?.get(position)
             holder.binding.item = item
             when (item?.status){
+                0 ->{
+                    holder.binding.itemHomeTopTag?.text =""
+                }
                 1 ->{
-                    holder.binding.itemHomeTopTag?.visibility =View.VISIBLE
+                    holder.binding.itemHomeTopTag?.text ="待支付"
                 }
                 -1->{
                     holder.binding.itemHomeTopTag?.text ="支付完毕"
-                }
-                else ->{
-                    holder.binding.itemHomeTopTag?.visibility =View.GONE
                 }
             }
             holder.binding.itemHomeLinear.setOnClickListener {

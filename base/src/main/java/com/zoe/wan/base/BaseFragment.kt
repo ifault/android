@@ -31,6 +31,8 @@ abstract class BaseFragment<B : ViewDataBinding, VM : BaseViewModel> : Fragment(
      */
     abstract fun initViewData()
 
+    abstract fun runTask()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,7 +43,7 @@ abstract class BaseFragment<B : ViewDataBinding, VM : BaseViewModel> : Fragment(
             LayoutInflater.from(context), getLayoutId(),
             container, false
         )
-
+        runTask()
         return binding?.root
     }
 

@@ -11,6 +11,7 @@ import com.zoe.wan.android.example.repository.data.HomeListData
 import com.zoe.wan.android.example.repository.data.HomeListItemData
 import com.zoe.wan.base.BaseViewModel
 import com.zoe.wan.base.SingleLiveEvent
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class HomeViewModel(application: Application) : BaseViewModel(application) {
@@ -23,14 +24,17 @@ class HomeViewModel(application: Application) : BaseViewModel(application) {
 //        handler.postDelayed(runnable, 10000)
 //    }
     init {
-    getHomeList()
+        getHomeList()
     }
-
+    private val refreshIntervalMillis = 10 * 1000L
     private fun getHomeList() {
         viewModelScope.launch {
-            var data: HomeListData? = Repository.getHomeList()
-            var list = data?.items ?: emptyList()
-            homeListData.postValue(list)
+            while (true) {
+                var data: HomeListData? = Repository.getHomeList()
+                var list = data?.items ?: emptyList()
+                homeListData.postValue(list)
+                delay(refreshIntervalMillis)
+            }
         }
     }
 

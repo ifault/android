@@ -12,6 +12,4 @@ abstract class AdapterItemListener<T> {
  */
 abstract class AdapterCollectListener<T> {
     abstract fun pay(position: Int, uuid: String)
-    abstract fun startMonitor()
-
 }

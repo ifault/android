@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="end"
-                android:text="@{fragHomeVm.isMonitrong? `关闭监控` : `开启监控`}"
+                android:text="@{fragHomeVm.isMonitoring? `关闭监控` : `开启监控`}"
                 android:paddingRight="@dimen/dp_10"
                 android:textColor="@color/white"
                 android:textSize="@dimen/sp_14" />

@@ -8,7 +8,6 @@ import com.blankj.utilcode.util.SPUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.google.gson.Gson
 import com.zoe.wan.android.example.common.Constants
-import com.zoe.wan.android.example.common.Constants.SP_SETTINGS
 import com.zoe.wan.android.example.repository.Repository
 import com.zoe.wan.android.example.repository.data.HomeListItemData
 import com.zoe.wan.android.example.repository.data.SettingData
@@ -19,18 +18,18 @@ import com.zoe.wan.base.loading.LoadingUtils
 class SettingViewModel(application: Application) : BaseViewModel(application) {
     val server = ObservableField<String>()
     val token = ObservableField<String>()
+    val expiredTime = ObservableField<String>()
     val password = ObservableField<String>()
     val accounts = ObservableField<String>()
     var cleared = SingleLiveEvent<Boolean>()
     var added = SingleLiveEvent<Boolean>()
 
+
     init {
-        val setting = SPUtils.getInstance().getString(SP_SETTINGS)
-        LogUtils.d("setting is $setting")
-        val savedUser = GsonUtils.fromJson(setting, SettingData::class.java)
-        server.set(savedUser?.server)
-        token.set(savedUser?.token)
-        password.set(savedUser?.password)
+        server.set(SPUtils.getInstance().getString(Constants.SP_SETTINGS_SERVER))
+        token.set(SPUtils.getInstance().getString(Constants.SP_SETTINGS_TOKEN))
+        password.set(SPUtils.getInstance().getString(Constants.SP_SETTINGS_PASSWORD))
+        expiredTime.set(SPUtils.getInstance().getString(Constants.SP_SETTINGS_EXPIRED_TIME,"1"))
     }
 
     fun addAccount(){

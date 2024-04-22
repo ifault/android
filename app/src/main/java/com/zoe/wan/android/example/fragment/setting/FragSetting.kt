@@ -32,9 +32,10 @@ class FragSetting : BaseFragment<FragmentSettingBinding, SettingViewModel>() {
         binding?.saveAction?.setOnClickListener {
             LogUtils.d("保存配置")
             LoadingUtils.showLoading()
-            val data = SettingData(binding?.fragSettingVm?.server?.get(),binding?.fragSettingVm?.token?.get(),binding?.fragSettingVm?.password?.get() )
-            LogUtils.d(GsonUtils.toJson(data))
-            SPUtils.getInstance().put(Constants.SP_SETTINGS, GsonUtils.toJson(data))
+            SPUtils.getInstance().put(Constants.SP_SETTINGS_SERVER, binding?.fragSettingVm?.server?.get())
+            SPUtils.getInstance().put(Constants.SP_SETTINGS_TOKEN, binding?.fragSettingVm?.token?.get())
+            SPUtils.getInstance().put(Constants.SP_SETTINGS_PASSWORD, binding?.fragSettingVm?.password?.get())
+            SPUtils.getInstance().put(Constants.SP_SETTINGS_EXPIRED_TIME, binding?.fragSettingVm?.expiredTime?.get() ?: "1")
             viewModel?.addAccount()
         }
 

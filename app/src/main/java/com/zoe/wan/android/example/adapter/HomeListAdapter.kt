@@ -80,9 +80,8 @@ class HomeListAdapter : BaseRecyclerAdapter<HomeListItemData?, BaseViewHolder<*>
             }
             holder.binding.itemHomeLinear.setOnClickListener {
                 if(item?.status !=1){
-                    Toast.makeText(it.context, "目前无法支付", Toast.LENGTH_LONG).show()
+                    Toast.makeText(it.context, "还没有抢到票", Toast.LENGTH_LONG).show()
                 }else{
-                    Toast.makeText(it.context, "点击支付 ${item.uuid}", Toast.LENGTH_LONG).show()
                     collectListener?.pay(position," ${item.uuid}")
 
                 }

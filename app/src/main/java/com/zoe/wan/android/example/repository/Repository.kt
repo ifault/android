@@ -18,7 +18,10 @@ object Repository {
         val data: BaseResponse<HomeListData>? = getDefaultApi().homeList()
         return responseCall(data)
     }
-
+    suspend fun pay(uuid: String): Boolean {
+        val data: BaseResponse<Any>? = getDefaultApi().pay(uuid)
+        return responseNoDataCall(data)
+    }
     suspend fun clearAccount(): Boolean {
         val data: BaseResponse<Any>? = getDefaultApi().clearAccount()
         return responseNoDataCall(data)

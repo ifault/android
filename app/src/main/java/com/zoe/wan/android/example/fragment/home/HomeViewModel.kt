@@ -5,6 +5,7 @@ import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
 import androidx.lifecycle.viewModelScope
+import com.blankj.utilcode.util.ToastUtils
 import com.youth.banner.util.LogUtils
 import com.zoe.wan.android.example.repository.Repository
 import com.zoe.wan.android.example.repository.data.HomeListData
@@ -17,7 +18,9 @@ import kotlinx.coroutines.launch
 class HomeViewModel(application: Application) : BaseViewModel(application) {
 
     var homeListData = SingleLiveEvent<List<HomeListItemData?>?>()
-    var isMonitrong = SingleLiveEvent<Boolean>()
+    var isMonitrong = SingleLiveEvent<Boolean>().apply {
+        value = false
+    }
     init {
         getHomeList()
     }
@@ -38,17 +41,16 @@ class HomeViewModel(application: Application) : BaseViewModel(application) {
         })
     }
 
-    fun pay(id: String, callback: (state: Boolean) -> Unit) {
+    fun pay(uuid: String, callback: (state: Boolean) -> Unit) {
         launch({
-            // 支付的业务逻辑
+            var data  = Repository.pay(uuid)
         }, onComplete = {
             callback.invoke(true)
+            ToastUtils.showLong("支付完毕")
         })
     }
 
     fun startMonitor(){
-        isMonitrong.value
         isMonitrong.postValue(!isMonitrong.value!!)
-
     }
 }

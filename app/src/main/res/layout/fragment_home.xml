@@ -10,18 +10,15 @@
             type="com.zoe.wan.android.fragment.home.HomeViewModel" />
 
     </data>
-
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/cardview_dark_background">
-
-        <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical">
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_40"
             android:background="@color/teal_700"
             android:gravity="center_vertical">
-
             <Space
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -46,26 +43,30 @@
                 android:paddingRight="@dimen/dp_10"
                 android:textColor="@color/white"
                 android:textSize="@dimen/sp_14" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/cardview_dark_background">
+
+            <com.scwang.smart.refresh.layout.SmartRefreshLayout
+                android:id="@+id/homeRefreshView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <com.scwang.smart.refresh.header.ClassicsHeader
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/homeTabListView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
 
         </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <com.scwang.smart.refresh.layout.SmartRefreshLayout
-            android:id="@+id/homeRefreshView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <com.scwang.smart.refresh.header.ClassicsHeader
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/homeTabListView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
-
-
     </androidx.appcompat.widget.LinearLayoutCompat>
+
 
 </layout>
 

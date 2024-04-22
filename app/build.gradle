@@ -49,7 +49,7 @@ android {
 }
 
 dependencies {
-
+    api 'com.alipay.sdk:alipaysdk-android:+@aar'
     implementation libs.androidx.constraintlayout
     implementation libs.androidx.viewpager2
 

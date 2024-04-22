@@ -68,22 +68,24 @@ class HomeListAdapter : BaseRecyclerAdapter<HomeListItemData?, BaseViewHolder<*>
         if (holder is MyViewHolder) {
             val item: HomeListItemData? = getDataList()?.get(position)
             holder.binding.item = item
-            when (item?.status){
-                0 ->{
-                    holder.binding.itemHomeTopTag?.text =""
+            when (item?.status) {
+                0 -> {
+                    holder.binding.itemHomeTopTag?.text = ""
                 }
-                1 ->{
-                    holder.binding.itemHomeTopTag?.text ="待支付"
+
+                1 -> {
+                    holder.binding.itemHomeTopTag?.text = "待支付"
                 }
-                -1->{
-                    holder.binding.itemHomeTopTag?.text ="支付完毕"
+
+                -1 -> {
+                    holder.binding.itemHomeTopTag?.text = "支付完毕"
                 }
             }
             holder.binding.itemHomeLinear.setOnClickListener {
-                if(item?.status !=1){
+                if (item?.status != 1) {
                     Toast.makeText(it.context, "还没有抢到票", Toast.LENGTH_LONG).show()
-                }else{
-                    collectListener?.pay(position," ${item.uuid}")
+                } else {
+                    collectListener?.pay(position, " ${item.uuid}", "${item.orderStr}")
 
                 }
             }

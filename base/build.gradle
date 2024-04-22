@@ -60,7 +60,7 @@ dependencies {
 
     //utils工具库
     api libs.utilcodex
-
+    api 'com.alipay.sdk:alipaysdk-android:+@aar'
     //本地依赖库：网络请求
     implementation project(path: ':http')
     implementation libs.androidx.databinding.runtime

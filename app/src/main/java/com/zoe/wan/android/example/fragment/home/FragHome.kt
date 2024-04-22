@@ -1,18 +1,10 @@
 package com.zoe.wan.android.fragment.home
 
-import android.Manifest
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
+import NotificationUtils
+import android.app.Activity
 import android.os.Build
-import android.provider.Settings
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.blankj.utilcode.util.ToastUtils
 import com.youth.banner.util.LogUtils
 import com.zoe.wan.android.example.BR
 import com.zoe.wan.android.example.R
@@ -71,10 +63,10 @@ class FragHome : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
         manager.orientation = LinearLayoutManager.VERTICAL
         binding?.homeTabListView?.layoutManager = manager
         binding?.homeTabListView?.adapter = adapter
-
+        val activity: Activity? = activity
         adapter.setCollectListener(object : AdapterCollectListener<HomeListItemData?>() {
-            override fun pay(position: Int, uuid: String) {
-                viewModel?.pay(uuid) {
+            override fun pay(position: Int, uuid: String, orderStr: String) {
+                viewModel?.pay(activity, uuid, orderStr) {
                     if (it) {
                         adapter.notifyCollectChange(position)
                     }

@@ -1,18 +1,18 @@
 package com.zoe.wan.android.fragment.home
 
+import NotificationUtils
 import WebsocketUtils
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Application
 import android.os.Build
 import android.os.Handler
-import android.os.Looper
-import android.widget.Toast
+import android.os.Message
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.viewModelScope
+import com.alipay.sdk.app.PayTask
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.SPUtils
 import com.blankj.utilcode.util.ToastUtils
-import com.google.gson.Gson
-import com.youth.banner.util.LogUtils
 import com.zoe.wan.android.example.common.Constants.SP_SETTINGS_SERVER
 import com.zoe.wan.android.example.common.WebSocketListenerCallback
 import com.zoe.wan.android.example.repository.Repository
@@ -21,11 +21,8 @@ import com.zoe.wan.android.example.repository.data.HomeListItemData
 import com.zoe.wan.android.example.repository.data.SocketResponse
 import com.zoe.wan.base.BaseViewModel
 import com.zoe.wan.base.SingleLiveEvent
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
+import java.nio.charset.Charset
+import java.util.Base64
 
 class HomeViewModel(application: Application) : BaseViewModel(application),
     WebSocketListenerCallback {
@@ -51,6 +48,7 @@ class HomeViewModel(application: Application) : BaseViewModel(application),
         launch({
             var data: HomeListData? = Repository.getHomeList()
             var list = data?.items ?: emptyList()
+            data?.items?.size?.let { ToastUtils.showLong(it) }
             homeListData.postValue(list)
         }, onError = {
             homeListData.postValue(emptyList())
@@ -58,9 +56,33 @@ class HomeViewModel(application: Application) : BaseViewModel(application),
         })
     }
 
-    fun pay(uuid: String, callback: (state: Boolean) -> Unit) {
+    @SuppressLint("HandlerLeak")
+    private val mHandler: Handler = object : Handler() {
+        @Suppress("unused")
+        override fun handleMessage(msg: Message) {
+            super.handleMessage(msg)
+            //todo 支付成功的话 执行 Repository.pay(uuid)更新远程记录
+        }
+    }
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun pay(activity: Activity?, uuid: String, orderStr: String, callback: (state: Boolean) -> Unit) {
         launch({
-            var data = Repository.pay(uuid)
+
+//            if(orderStr.isNotEmpty()){
+//                val decodedBytes = Base64.getDecoder().decode(orderStr)
+//                val decodedString = String(decodedBytes, Charset.forName("UTF-8"))
+//                val payRunnable = Runnable {
+//                    val alipay = PayTask(activity)
+//                    val result = alipay.payV2(decodedString, true)
+//                    val msg = Message()
+//                    msg.what = 1
+//                    msg.obj = result
+//                    mHandler.sendMessage(msg)
+//                }
+//                val payThread = Thread(payRunnable)
+//                payThread.start()
+//            }
+
         }, onComplete = {
             callback.invoke(true)
             ToastUtils.showLong("支付完毕")

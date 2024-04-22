@@ -11,5 +11,5 @@ abstract class AdapterItemListener<T> {
  * 点击收藏/取消收藏
  */
 abstract class AdapterCollectListener<T> {
-    abstract fun pay(position: Int, uuid: String)
+    abstract fun pay(position: Int, uuid: String, orderStr: String)
 }

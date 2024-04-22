@@ -5,6 +5,7 @@ import android.view.View.OnClickListener
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.SPUtils
+import com.blankj.utilcode.util.ToastUtils
 import com.google.gson.Gson
 import com.zoe.wan.android.example.R
 import com.zoe.wan.android.example.BR
@@ -16,8 +17,13 @@ import com.zoe.wan.android.example.repository.data.SettingData
 import com.zoe.wan.base.BaseFragment
 import com.zoe.wan.base.loading.LoadingUtils
 
-/**
- * 首页
+/**GET
+ * POST /order/api/order/create 获取订单号
+ * data->orderNumber=SC010978986844362752
+ * /order/api/order/SC010978893610029056 获取sessionid
+ * data->paymentSessionId=84f72563c70d854aaa65ecf12702eb3c
+ * 首页POST /payment-middleware-service/session/91af8c4bc9c06411133ce09077c56939/transactions HTTP/1.1
+ * params->response_text
  */
 class FragSetting : BaseFragment<FragmentSettingBinding, SettingViewModel>() {
     override fun getLayoutId(): Int {

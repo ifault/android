@@ -24,8 +24,7 @@ object NotificationUtils {
     private const val CHANNEL_NAME = "My Channel"
     private const val NOTIFICATION_ID = 1
     @RequiresApi(Build.VERSION_CODES.O)
-    fun sendNotification(activity: Activity, title: String, message: String) {
-        val context: Context = activity.applicationContext
+    fun sendNotification(context: Context, title: String, message: String) {
         createNotificationChannel(context)
 
         val intent = Intent(context, TabActivity::class.java)
@@ -41,11 +40,11 @@ object NotificationUtils {
 
         val notificationManager = NotificationManagerCompat.from(context)
         if (ActivityCompat.checkSelfPermission(
-                activity,
+                context,
                 Manifest.permission.POST_NOTIFICATIONS
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            showPermissionDeniedMessage(activity)
+            showPermissionDeniedMessage(context)
         }
         notificationManager.notify(NOTIFICATION_ID, builder.build())
     }
@@ -59,13 +58,13 @@ object NotificationUtils {
         notificationManager.createNotificationChannel(channel)
     }
 
-    private fun showPermissionDeniedMessage(activity: Activity) {
+    private fun showPermissionDeniedMessage(context: Context) {
         val message = "请打开通知权限"
-        val builder = AlertDialog.Builder(activity)
+        val builder = AlertDialog.Builder(context)
             .setTitle("通知权限受限")
             .setMessage(message)
             .setPositiveButton("打开设置") { dialog, _ ->
-                openAppSettings(activity)
+                openAppSettings(context)
                 dialog.dismiss()
             }
             .setNegativeButton("结束") { dialog, _ ->
@@ -74,9 +73,9 @@ object NotificationUtils {
         val dialog = builder.create()
         dialog.show()
     }
-    private fun openAppSettings(activity: Activity) {
+    private fun openAppSettings(context: Context) {
         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-        val uri = Uri.fromParts("package", activity.packageName, null)
+        val uri = Uri.fromParts("package", context.packageName, null)
         intent.data = uri
         startActivity(intent)
     }

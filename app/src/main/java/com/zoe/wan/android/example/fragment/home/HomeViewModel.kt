@@ -2,18 +2,23 @@ package com.zoe.wan.android.fragment.home
 
 import WebsocketUtils
 import android.app.Application
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.viewModelScope
+import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.SPUtils
 import com.blankj.utilcode.util.ToastUtils
+import com.google.gson.Gson
 import com.youth.banner.util.LogUtils
 import com.zoe.wan.android.example.common.Constants.SP_SETTINGS_SERVER
 import com.zoe.wan.android.example.common.WebSocketListenerCallback
 import com.zoe.wan.android.example.repository.Repository
 import com.zoe.wan.android.example.repository.data.HomeListData
 import com.zoe.wan.android.example.repository.data.HomeListItemData
+import com.zoe.wan.android.example.repository.data.SocketResponse
 import com.zoe.wan.base.BaseViewModel
 import com.zoe.wan.base.SingleLiveEvent
 import kotlinx.coroutines.Dispatchers
@@ -24,7 +29,7 @@ import kotlinx.coroutines.withContext
 
 class HomeViewModel(application: Application) : BaseViewModel(application),
     WebSocketListenerCallback {
-
+    val context = application.applicationContext
     var homeListData = SingleLiveEvent<List<HomeListItemData?>?>()
     var isMonitoring = SingleLiveEvent<Boolean>().apply {
         value = false
@@ -63,13 +68,13 @@ class HomeViewModel(application: Application) : BaseViewModel(application),
     }
 
     fun startMonitor() {
-        if(isMonitoring.value == true){
+        if (isMonitoring.value == true) {
             websocketUtils.closeWebSocket()
-        }else{
-            var url : String = SPUtils.getInstance().getString(SP_SETTINGS_SERVER)
+        } else {
+            var url: String = SPUtils.getInstance().getString(SP_SETTINGS_SERVER)
             url = convertToWebSocketUrl(url)
-            ToastUtils.showLong(url+"ws/")
-            websocketUtils.startWebSocket(url+"ws/")
+            ToastUtils.showLong(url + "ws/")
+            websocketUtils.startWebSocket(url + "ws/")
         }
 
     }
@@ -84,8 +89,26 @@ class HomeViewModel(application: Application) : BaseViewModel(application),
         isMonitoring.postValue(false)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onWebSocketMessage(message: String) {
-        ToastUtils.showLong(message)
+        if (message != "") {
+
+            val msg = GsonUtils.fromJson(message, SocketResponse::class.java)
+            when (msg.code) {
+                0 -> {
+                    ToastUtils.showLong(msg.message)
+                }
+
+                1 -> {
+                    NotificationUtils.sendNotification(
+                        context,
+                        "抢票软件",
+                        msg.message
+                    )
+                }
+            }
+
+        }
     }
 
     fun convertToWebSocketUrl(url: String): String {
@@ -98,14 +121,17 @@ class HomeViewModel(application: Application) : BaseViewModel(application),
                 val path = url.substring(httpPrefix.length)
                 "$wsPrefix$path"
             }
+
             url.startsWith(httpsPrefix) -> {
                 val path = url.substring(httpsPrefix.length)
                 "$wsPrefix$path"
             }
+
             url.startsWith(wsPrefix) -> {
                 val path = url.substring(wsPrefix.length)
                 "$wsPrefix$path"
             }
+
             else -> url
         }
     }

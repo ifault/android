@@ -85,7 +85,7 @@ class FragHome : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
         binding?.startMonitor?.setOnClickListener {
             viewModel?.startMonitor()
-//            NotificationUtils.sendNotification(requireActivity(), "Notification Title", "Notification Message")
+            NotificationUtils.sendNotification(requireActivity(), "Notification Title", "Notification Message")
         }
         refresh()
     }

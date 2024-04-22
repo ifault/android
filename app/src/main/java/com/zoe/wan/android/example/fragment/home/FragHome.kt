@@ -92,27 +92,7 @@ class FragHome : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
 
         binding?.startMonitor?.setOnClickListener {
-//            viewModel?.startMonitor()
             NotificationUtils.sendNotification(requireActivity(), "Notification Title", "Notification Message")
-//            val requiredPermission = Manifest.permission.POST_NOTIFICATIONS
-//            val permissionGranted = ActivityCompat.checkSelfPermission(
-//                requireContext(),
-//                requiredPermission
-//            ) == PackageManager.PERMISSION_GRANTED
-//
-//            if (!permissionGranted) {
-//                if (ActivityCompat.shouldShowRequestPermissionRationale(
-//                        requireActivity(),
-//                        requiredPermission
-//                    )
-//                ) {
-//                    showPermissionDeniedMessage()
-//                } else {
-//                    requestNotificationPermission()
-//                }
-//            } else {
-//                sendNotification()
-//            }
         }
 
         refresh()

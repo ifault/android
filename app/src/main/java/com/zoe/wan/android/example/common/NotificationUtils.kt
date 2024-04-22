@@ -6,11 +6,15 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
+import android.provider.Settings
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.blankj.utilcode.util.ActivityUtils.startActivity
 import com.blankj.utilcode.util.ToastUtils
 import com.zoe.wan.android.example.R
 import com.zoe.wan.android.example.activity.home.TabActivity
@@ -19,7 +23,6 @@ object NotificationUtils {
     private const val CHANNEL_ID = "my_channel_id"
     private const val CHANNEL_NAME = "My Channel"
     private const val NOTIFICATION_ID = 1
-
     @RequiresApi(Build.VERSION_CODES.O)
     fun sendNotification(activity: Activity, title: String, message: String) {
         val context: Context = activity.applicationContext
@@ -42,8 +45,7 @@ object NotificationUtils {
                 Manifest.permission.POST_NOTIFICATIONS
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            ToastUtils.showLong("没有权限")
-            return
+            showPermissionDeniedMessage(activity)
         }
         notificationManager.notify(NOTIFICATION_ID, builder.build())
     }
@@ -55,5 +57,27 @@ object NotificationUtils {
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(channel)
+    }
+
+    private fun showPermissionDeniedMessage(activity: Activity) {
+        val message = "请打开通知权限"
+        val builder = AlertDialog.Builder(activity)
+            .setTitle("通知权限受限")
+            .setMessage(message)
+            .setPositiveButton("打开设置") { dialog, _ ->
+                openAppSettings(activity)
+                dialog.dismiss()
+            }
+            .setNegativeButton("结束") { dialog, _ ->
+                dialog.dismiss()
+            }
+        val dialog = builder.create()
+        dialog.show()
+    }
+    private fun openAppSettings(activity: Activity) {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+        val uri = Uri.fromParts("package", activity.packageName, null)
+        intent.data = uri
+        startActivity(intent)
     }
 }

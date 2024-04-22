@@ -73,7 +73,7 @@ class RetrofitClient {
             .connectionPool(ConnectionPool(8, 10, TimeUnit.SECONDS)) //添加这两行代码
             .sslSocketFactory(TrustAllCerts.createSSLSocketFactory()!!, TrustAllCerts())
             .hostnameVerifier(TrustAllCerts.TrustAllHostnameVerifier())
-            .addInterceptor(TokenInterceptor())
+//            .addInterceptor(TokenInterceptor())
             .addInterceptor(httpLoggingInterceptor)
             .build()
     }

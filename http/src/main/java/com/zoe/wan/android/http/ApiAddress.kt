@@ -2,9 +2,9 @@ package com.zoe.wan.android.http
 
 object ApiAddress {
 
-    const val Account_List = "api/accounts/"
+    const val Account_List = "api/accounts"
+    const val Account_Delete = "api/accounts/del"
     //首页文章
-    const val Article_List = "article/list/"
     fun getArticleList(pageCount: Int): String {
         return "article/list/$pageCount/json"
     }

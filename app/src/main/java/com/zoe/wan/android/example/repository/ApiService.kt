@@ -1,9 +1,17 @@
 package com.zoe.wan.android.example.repository
 
+import com.google.gson.annotations.JsonAdapter
+import com.zoe.wan.android.example.repository.data.AccountRequest
 import com.zoe.wan.android.example.repository.data.HomeListData
 import com.zoe.wan.android.http.ApiAddress
 import com.zoe.wan.android.http.BaseResponse
+import retrofit2.http.Body
+import retrofit2.http.DELETE
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
+import retrofit2.http.Headers
+import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface ApiService {
@@ -13,6 +21,14 @@ interface ApiService {
 
     @GET(ApiAddress.Account_List)
     suspend fun homeList(): BaseResponse<HomeListData>?
+
+    @Headers("Content-Type: application/json")
+    @POST(ApiAddress.Account_List)
+    suspend fun addAccount(@Body accountRequest: AccountRequest) : BaseResponse<Any>?
+
+    @POST(ApiAddress.Account_Delete)
+    suspend fun clearAccount() : BaseResponse<Any>?
+
 }
 
 

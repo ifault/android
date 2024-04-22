@@ -1,6 +1,7 @@
 package com.zoe.wan.android.example.repository
 
 import com.blankj.utilcode.util.ToastUtils
+import com.zoe.wan.android.example.repository.data.AccountRequest
 import com.zoe.wan.android.example.repository.data.HomeListData
 import com.zoe.wan.android.http.BaseResponse
 import com.zoe.wan.android.http.RetrofitClient
@@ -18,6 +19,14 @@ object Repository {
         return responseCall(data)
     }
 
+    suspend fun clearAccount(): Boolean {
+        val data: BaseResponse<Any>? = getDefaultApi().clearAccount()
+        return responseNoDataCall(data)
+    }
+    suspend fun addAccount(username: String, password: String): Boolean {
+        val data: BaseResponse<Any>? = getDefaultApi().addAccount(AccountRequest(username, password))
+        return responseNoDataCall(data)
+    }
 
     private fun responseNoDataCall(
         response: BaseResponse<Any>?,

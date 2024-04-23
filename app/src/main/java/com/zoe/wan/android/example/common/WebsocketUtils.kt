@@ -1,6 +1,7 @@
-import com.blankj.utilcode.util.ToastUtils
 import com.zoe.wan.android.example.common.WebSocketListenerCallback
+import kotlinx.coroutines.*
 import okhttp3.*
+import okhttp3.WebSocket
 import okhttp3.WebSocketListener
 
 class WebsocketUtils {
@@ -12,12 +13,14 @@ class WebsocketUtils {
         this.callback = callback
     }
 
-    fun startWebSocket(url: String) {
+    suspend fun startWebSocket(url: String) {
         val request = Request.Builder().url(url).build()
         val listener = CustomWebSocketListener()
-        webSocket = OkHttpClient().newWebSocket(request, listener)
+        val client = OkHttpClient()
+        webSocket = client.newWebSocket(request, listener)
     }
-    fun closeWebSocket() {
+
+    suspend fun closeWebSocket() {
         if (!isWebSocketClosed && webSocket != null) {
             isWebSocketClosed = true
             webSocket?.close(1000, "Closed by client")
@@ -25,9 +28,11 @@ class WebsocketUtils {
             callback?.onWebSocketDisconnected()
         }
     }
-    fun sendWebSocketMessage(message: String) {
+
+    suspend fun sendWebSocketMessage(message: String) {
         webSocket?.send(message)
     }
+
     private inner class CustomWebSocketListener : WebSocketListener() {
         override fun onOpen(webSocket: WebSocket, response: Response) {
             callback?.onWebSocketConnected()

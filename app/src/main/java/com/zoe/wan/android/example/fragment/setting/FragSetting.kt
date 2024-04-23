@@ -49,6 +49,10 @@ class FragSetting : BaseFragment<FragmentSettingBinding, SettingViewModel>() {
             LogUtils.d("清空账号")
             viewModel?.clearAccount()
         }
+
+        binding?.verify?.setOnClickListener{
+            viewModel?.verify()
+        }
     }
 
     override fun runTask() {

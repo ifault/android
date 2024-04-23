@@ -3,6 +3,7 @@ package com.zoe.wan.android.example.repository
 import com.google.gson.annotations.JsonAdapter
 import com.zoe.wan.android.example.repository.data.AccountRequest
 import com.zoe.wan.android.example.repository.data.HomeListData
+import com.zoe.wan.android.example.repository.data.VerifyResponse
 import com.zoe.wan.android.http.ApiAddress
 import com.zoe.wan.android.http.BaseResponse
 import retrofit2.http.Body
@@ -28,6 +29,9 @@ interface ApiService {
 
     @POST(ApiAddress.Account_Delete)
     suspend fun clearAccount() : BaseResponse<Any>?
+
+    @POST(ApiAddress.Account_Verify+"{token}")
+    suspend fun verify(@Path("token") token: String) : BaseResponse<VerifyResponse>?
 
     @POST(ApiAddress.Account_Pay +"{uuid}")
     suspend fun pay(@Path("uuid") uuid: String) : BaseResponse<Any>?

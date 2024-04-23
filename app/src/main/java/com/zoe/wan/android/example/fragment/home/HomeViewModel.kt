@@ -9,7 +9,6 @@ import android.os.Build
 import android.os.Handler
 import android.os.Message
 import androidx.annotation.RequiresApi
-import com.alipay.sdk.app.PayTask
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.SPUtils
 import com.blankj.utilcode.util.ToastUtils
@@ -21,6 +20,8 @@ import com.zoe.wan.android.example.repository.data.HomeListItemData
 import com.zoe.wan.android.example.repository.data.SocketResponse
 import com.zoe.wan.base.BaseViewModel
 import com.zoe.wan.base.SingleLiveEvent
+import com.zoe.wan.http.ExceptionUtil
+import retrofit2.HttpException
 import java.nio.charset.Charset
 import java.util.Base64
 
@@ -48,9 +49,9 @@ class HomeViewModel(application: Application) : BaseViewModel(application),
         launch({
             var data: HomeListData? = Repository.getHomeList()
             var list = data?.items ?: emptyList()
-            data?.items?.size?.let { ToastUtils.showLong(it) }
             homeListData.postValue(list)
         }, onError = {
+            ToastUtils.showLong("获取数据出错，请验证密钥")
             homeListData.postValue(emptyList())
         }, onComplete = {
         })
@@ -64,8 +65,14 @@ class HomeViewModel(application: Application) : BaseViewModel(application),
             //todo 支付成功的话 执行 Repository.pay(uuid)更新远程记录
         }
     }
+
     @RequiresApi(Build.VERSION_CODES.O)
-    fun pay(activity: Activity?, uuid: String, orderStr: String, callback: (state: Boolean) -> Unit) {
+    fun pay(
+        activity: Activity?,
+        uuid: String,
+        orderStr: String,
+        callback: (state: Boolean) -> Unit
+    ) {
         launch({
 
 //            if(orderStr.isNotEmpty()){
@@ -85,53 +92,37 @@ class HomeViewModel(application: Application) : BaseViewModel(application),
 
         }, onComplete = {
             callback.invoke(true)
-            ToastUtils.showLong("支付完毕")
         })
     }
 
     fun startMonitor() {
         if (isMonitoring.value == true) {
-            websocketUtils.closeWebSocket()
+            ToastUtils.showLong("关闭连接")
+            launch(
+                block = { websocketUtils.closeWebSocket() },
+                onError = { ToastUtils.showLong("服务器异常") },
+                onComplete = {
+                    isMonitoring.value = false
+                }
+            )
         } else {
-            var url: String = SPUtils.getInstance().getString(SP_SETTINGS_SERVER)
-            url = convertToWebSocketUrl(url)
-            ToastUtils.showLong(url + "ws/")
-            websocketUtils.startWebSocket(url + "ws/")
-        }
-
-    }
-
-    override fun onWebSocketConnected() {
-        ToastUtils.showLong("服务器连接成功")
-        isMonitoring.postValue(true)
-    }
-
-    override fun onWebSocketDisconnected() {
-        ToastUtils.showLong("服务器断开连接")
-        isMonitoring.postValue(false)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    override fun onWebSocketMessage(message: String) {
-        if (message != "") {
-
-            val msg = GsonUtils.fromJson(message, SocketResponse::class.java)
-            when (msg.code) {
-                0 -> {
-                    ToastUtils.showLong(msg.message)
-                }
-
-                1 -> {
-                    NotificationUtils.sendNotification(
-                        context,
-                        "抢票软件",
-                        msg.message
-                    )
-                }
-            }
-
+            ToastUtils.showLong("打开连接")
+            launch(
+                {
+                    var url: String = SPUtils.getInstance().getString(SP_SETTINGS_SERVER)
+                    url = convertToWebSocketUrl(url)
+                    websocketUtils.startWebSocket(url + "ws/")
+                    isMonitoring.value = false
+                },
+                onError = {
+                    ToastUtils.showLong("服务器异常")
+                    isMonitoring.value = false
+                },
+                onComplete = {}
+            )
         }
     }
+
 
     fun convertToWebSocketUrl(url: String): String {
         val httpPrefix = "http://"
@@ -155,6 +146,41 @@ class HomeViewModel(application: Application) : BaseViewModel(application),
             }
 
             else -> url
+        }
+    }
+
+    override fun onWebSocketConnected() {
+        isMonitoring.postValue(true)
+    }
+
+    override fun onWebSocketDisconnected() {
+        isMonitoring.postValue(false)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onWebSocketMessage(message: String) {
+        if (message != "") {
+            val msg = GsonUtils.fromJson(message, SocketResponse::class.java)
+            when (msg.code) {
+                0 -> {
+                    ToastUtils.showLong(msg.message)
+                }
+
+                -1 -> {
+                    launch({ websocketUtils.closeWebSocket()})
+                    ToastUtils.showLong(msg.message)
+                    isMonitoring.value = false
+                }
+
+                1 -> {
+                    NotificationUtils.sendNotification(
+                        context,
+                        "抢票软件",
+                        msg.message
+                    )
+                }
+            }
+
         }
     }
 }

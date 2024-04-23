@@ -46,6 +46,8 @@ object ExceptionUtil {
 
 
         when (e) {
+
+
             is HttpException -> {
                 catchHttpException(e.code())
             }

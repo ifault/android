@@ -1,4 +1,4 @@
-package com.zoe.wan.android.example.common
+package com.zoe.wan.android.http
 
 object Constants {
     const val SP_SETTINGS_SERVER = "SP_SETTINGS_SERVER"

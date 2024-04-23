@@ -3,6 +3,7 @@ package com.zoe.wan.android.example.repository
 import com.blankj.utilcode.util.ToastUtils
 import com.zoe.wan.android.example.repository.data.AccountRequest
 import com.zoe.wan.android.example.repository.data.HomeListData
+import com.zoe.wan.android.example.repository.data.VerifyResponse
 import com.zoe.wan.android.http.BaseResponse
 import com.zoe.wan.android.http.RetrofitClient
 import kotlinx.coroutines.Dispatchers
@@ -26,6 +27,12 @@ object Repository {
         val data: BaseResponse<Any>? = getDefaultApi().clearAccount()
         return responseNoDataCall(data)
     }
+
+    suspend fun verify(token: String): VerifyResponse? {
+        val data: BaseResponse<VerifyResponse>? = getDefaultApi().verify(token)
+        return responseCall(data)
+    }
+
     suspend fun addAccount(username: String, password: String): Boolean {
         val data: BaseResponse<Any>? = getDefaultApi().addAccount(AccountRequest(username, password))
         return responseNoDataCall(data)

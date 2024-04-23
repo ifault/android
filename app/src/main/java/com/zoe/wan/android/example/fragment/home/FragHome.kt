@@ -20,7 +20,6 @@ import com.zoe.wan.base.adapter.AdapterCollectListener
  */
 class FragHome : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
     private val adapter: HomeListAdapter = HomeListAdapter()
-
     override fun getLayoutId(): Int {
         return R.layout.fragment_home
     }
@@ -68,7 +67,15 @@ class FragHome : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
             override fun pay(position: Int, uuid: String, orderStr: String) {
                 viewModel?.pay(activity, uuid, orderStr) {
                     if (it) {
-                        adapter.notifyCollectChange(position)
+                        adapter.notifyCollectChange(position, -1)
+                    }
+                }
+            }
+
+            override fun del(position: Int, uuid: String) {
+                viewModel?.del(uuid) {
+                    if (it) {
+                        adapter.notifyCollectChange(position, -2)
                     }
                 }
             }

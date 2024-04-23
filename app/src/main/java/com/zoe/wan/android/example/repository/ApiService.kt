@@ -36,6 +36,9 @@ interface ApiService {
     @POST(ApiAddress.Account_Pay +"{uuid}")
     suspend fun pay(@Path("uuid") uuid: String) : BaseResponse<Any>?
 
+    @POST(ApiAddress.Account_Delete_Single +"{uuid}")
+    suspend fun del(@Path("uuid") uuid: String) : BaseResponse<Any>?
+
 }
 
 

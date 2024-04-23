@@ -23,6 +23,12 @@ object Repository {
         val data: BaseResponse<Any>? = getDefaultApi().pay(uuid)
         return responseNoDataCall(data)
     }
+
+    suspend fun del(uuid: String): Boolean {
+        val data: BaseResponse<Any>? = getDefaultApi().del(uuid)
+        return responseNoDataCall(data)
+    }
+
     suspend fun clearAccount(): Boolean {
         val data: BaseResponse<Any>? = getDefaultApi().clearAccount()
         return responseNoDataCall(data)

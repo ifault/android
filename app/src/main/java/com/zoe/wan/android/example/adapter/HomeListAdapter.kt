@@ -41,11 +41,12 @@ class HomeListAdapter : BaseRecyclerAdapter<HomeListItemData?, BaseViewHolder<*>
         this.collectListener = listener
     }
 
-    fun notifyCollectChange(position: Int) {
+    fun notifyCollectChange(position: Int, status: Int = -1) {
         if (getDataList()?.isEmpty() == true) {
             return
         }
-        getDataList()?.get(position)?.status = -1
+        getDataList()?.get(position)?.status = status
+
         notifyDataSetChanged()
     }
 
@@ -70,24 +71,39 @@ class HomeListAdapter : BaseRecyclerAdapter<HomeListItemData?, BaseViewHolder<*>
             holder.binding.item = item
             when (item?.status) {
                 0 -> {
-                    holder.binding.itemHomeTopTag?.text = ""
+                    holder.binding.payItem?.text = ""
                 }
 
                 1 -> {
-                    holder.binding.itemHomeTopTag?.text = "待支付"
+                    holder.binding.payItem?.text = "待支付"
                 }
 
                 -1 -> {
-                    holder.binding.itemHomeTopTag?.text = "支付完毕"
+                    holder.binding.payItem?.text = "支付完毕"
+                }
+
+                -2 -> {
+                    holder.binding.payItem?.text = "已删除"
                 }
             }
-            holder.binding.itemHomeLinear.setOnClickListener {
-                if (item?.status != 1) {
-                    Toast.makeText(it.context, "还没有抢到票", Toast.LENGTH_LONG).show()
-                } else {
-                    collectListener?.pay(position, " ${item.uuid}", "${item.orderStr}")
+            holder.binding.payItem.setOnClickListener {
+                when (item?.status) {
+                    -1 -> {
+                        ToastUtils.showLong("已经支付过")
+                    }
 
+                    0 -> {
+                        ToastUtils.showLong("还没有抢到票")
+                    }
+
+                    1 -> {
+                        collectListener?.pay(position, "${item.uuid}", "${item.orderStr}")
+                    }
                 }
+
+            }
+            holder.binding.deleteItem.setOnClickListener {
+                collectListener?.del(position, "${item?.uuid}")
             }
         }
     }

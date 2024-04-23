@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Handler
 import android.os.Message
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.MutableLiveData
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.SPUtils
 import com.blankj.utilcode.util.ToastUtils
@@ -28,7 +29,7 @@ import java.util.Base64
 class HomeViewModel(application: Application) : BaseViewModel(application),
     WebSocketListenerCallback {
     val context = application.applicationContext
-    var homeListData = SingleLiveEvent<List<HomeListItemData?>?>()
+    var homeListData = MutableLiveData<List<HomeListItemData?>?>()
     var isMonitoring = SingleLiveEvent<Boolean>().apply {
         value = false
     }
@@ -64,6 +65,15 @@ class HomeViewModel(application: Application) : BaseViewModel(application),
             super.handleMessage(msg)
             //todo 支付成功的话 执行 Repository.pay(uuid)更新远程记录
         }
+    }
+
+    fun del(uuid: String, callback: (state: Boolean) -> Unit) {
+        launch({
+            Repository.del(uuid)
+            initData()
+        }, onComplete = {
+            callback.invoke(true)
+        })
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -167,7 +177,7 @@ class HomeViewModel(application: Application) : BaseViewModel(application),
                 }
 
                 -1 -> {
-                    launch({ websocketUtils.closeWebSocket()})
+                    launch({ websocketUtils.closeWebSocket() })
                     ToastUtils.showLong(msg.message)
                     isMonitoring.value = false
                 }

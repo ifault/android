@@ -116,13 +116,13 @@ class HomeViewModel(application: Application) : BaseViewModel(application),
                 }
             )
         } else {
-            ToastUtils.showLong("打开连接")
             launch(
                 {
                     var url: String = SPUtils.getInstance().getString(SP_SETTINGS_SERVER)
                     url = convertToWebSocketUrl(url)
                     websocketUtils.startWebSocket(url + "ws/")
                     isMonitoring.value = false
+                    ToastUtils.showLong("打开连接")
                 },
                 onError = {
                     ToastUtils.showLong("服务器异常")
@@ -165,6 +165,11 @@ class HomeViewModel(application: Application) : BaseViewModel(application),
 
     override fun onWebSocketDisconnected() {
         isMonitoring.postValue(false)
+        ToastUtils.showLong("连接关闭")
+    }
+    override fun onWebSocketError() {
+        isMonitoring.postValue(false)
+        ToastUtils.showLong("服务器连接异常，请检查验证信息")
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

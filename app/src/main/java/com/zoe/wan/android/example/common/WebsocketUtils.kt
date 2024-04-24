@@ -1,4 +1,7 @@
+import com.blankj.utilcode.util.LogUtils
+import com.blankj.utilcode.util.SPUtils
 import com.zoe.wan.android.example.common.WebSocketListenerCallback
+import com.zoe.wan.android.http.Constants.SP_SETTINGS_ACCESS_TOKEN
 import kotlinx.coroutines.*
 import okhttp3.*
 import okhttp3.WebSocket
@@ -14,7 +17,11 @@ class WebsocketUtils {
     }
 
     suspend fun startWebSocket(url: String) {
-        val request = Request.Builder().url(url).build()
+        val token = SPUtils.getInstance().getString(SP_SETTINGS_ACCESS_TOKEN)
+        LogUtils.d("$url?token=$token")
+        val request = Request.Builder()
+            .url("$url?token=$token")
+            .build()
         val listener = CustomWebSocketListener()
         val client = OkHttpClient()
         webSocket = client.newWebSocket(request, listener)
@@ -39,7 +46,7 @@ class WebsocketUtils {
         }
 
         override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-            callback?.onWebSocketDisconnected()
+            callback?.onWebSocketError()
         }
 
         override fun onMessage(webSocket: WebSocket, text: String) {

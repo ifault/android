@@ -127,12 +127,12 @@
                     android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/saveAction"
+                        android:id="@+id/verify"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@color/teal_700"
-                        android:text="保存"
+                        android:text="验证密钥"
                         android:textColor="@color/white"
                         android:textSize="@dimen/sp_15" />
 
@@ -148,16 +148,18 @@
                     android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/verify"
+                        android:id="@+id/saveAction"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@color/teal_700"
-                        android:text="验证"
+                        android:text="保存其他配置"
                         android:textColor="@color/white"
                         android:textSize="@dimen/sp_15" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
+
+
 
 
                 <androidx.appcompat.widget.LinearLayoutCompat

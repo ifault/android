@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace 'com.zoe.wan.android.example'
+    namespace 'com.zoe.wan.android.jiangnan'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.zoe.wan.android.example"
+        applicationId "com.zoe.wan.android.jiangnan"
         minSdk 22
         targetSdk 34
         versionCode 1

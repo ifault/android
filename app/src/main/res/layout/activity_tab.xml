@@ -5,7 +5,7 @@
 
         <variable
             name="homeVm"
-            type="com.zoe.wan.android.example.activity.home.TabViewModel" />
+            type="com.zoe.wan.android.jiangnan.activity.home.TabViewModel" />
     </data>
 
 

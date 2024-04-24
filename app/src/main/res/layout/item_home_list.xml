@@ -5,7 +5,7 @@
 
     <data>
 
-        <import type="com.zoe.wan.android.example.repository.data.HomeListItemData" />
+        <import type="com.zoe.wan.android.jiangnan.repository.data.HomeListItemData" />
 
         <variable
             name="item"

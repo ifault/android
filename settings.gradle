@@ -21,7 +21,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "WanAndroidExample"
+rootProject.name = "JiangNan"
 include ':app'
 include ':http'
 include ':base'

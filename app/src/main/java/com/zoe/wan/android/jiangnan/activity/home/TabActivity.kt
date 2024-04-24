@@ -32,7 +32,7 @@ class TabActivity : BaseActivity<ActivityTabBinding, TabViewModel>() {
             BitmapFactory.decodeResource(resources, R.drawable.icon_community_grey),
             BitmapFactory.decodeResource(resources, R.drawable.icon_home_grey),
         )
-        val tabText = arrayOf("账号","设置")
+        val tabText = arrayOf("迪士尼账号","设置")
         binding?.tabBottomBar?.setSelectedIcons(selected.toList())
         binding?.tabBottomBar?.setUnselectIcons(unSelected.toList())
         binding?.tabBottomBar?.setTabText(tabText.toList())

@@ -46,7 +46,12 @@ class HomeViewModel(application: Application) : BaseViewModel(application),
         launch({
             var data: HomeListData? = Repository.getHomeList()
             var list = data?.items ?: emptyList()
-            homeListData.postValue(list)
+            if(data?.items?.isEmpty() == true){
+                homeListData.postValue(emptyList())
+            }else{
+                homeListData.postValue(list)
+            }
+
         }, onError = {
             ToastUtils.showLong("获取数据出错，请验证密钥")
             homeListData.postValue(emptyList())

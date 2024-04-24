@@ -35,10 +35,8 @@ class FragHome : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
     private fun refreshData() {
         LogUtils.d("刷新数据")
         viewModel?.homeListData?.observe(viewLifecycleOwner) { list ->
-            if (list != null && list?.isNotEmpty() == true) {
-                binding?.homeTabListView?.post {
-                    adapter.setDataList(list)
-                }
+            binding?.homeTabListView?.post {
+                adapter.setDataList(list)
             }
         }
     }

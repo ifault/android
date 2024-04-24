@@ -51,40 +51,6 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="输入密钥">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/token"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_60"
-                        android:layout_marginHorizontal="@dimen/dp_10"
-                        android:layout_marginVertical="@dimen/dp_10"
-                        android:background="@drawable/shape_edit_bg"
-                        android:paddingStart="@dimen/dp_15"
-                        android:text="@={fragSettingVm.token}" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="任务最长执行时间(小时)">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/expiredTime"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_60"
-                        android:layout_marginHorizontal="@dimen/dp_10"
-                        android:layout_marginVertical="@dimen/dp_10"
-                        android:background="@drawable/shape_edit_bg"
-                        android:paddingStart="@dimen/dp_15"
-                        android:text="@={fragSettingVm.expiredTime}" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:hint="统一的账号密码">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -98,6 +64,46 @@
                         android:text="@={fragSettingVm.password}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginHorizontal="@dimen/dp_30"
+                    android:layout_marginTop="@dimen/dp_22"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/saveSetting"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/teal_700"
+                        android:text="保存配置到本地"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/sp_15" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+<!--                <com.google.android.material.textfield.TextInputLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:hint="任务最长执行时间(小时)">-->
+
+<!--                    <com.google.android.material.textfield.TextInputEditText-->
+<!--                        android:id="@+id/expiredTime"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="@dimen/dp_60"-->
+<!--                        android:layout_marginHorizontal="@dimen/dp_10"-->
+<!--                        android:layout_marginVertical="@dimen/dp_10"-->
+<!--                        android:background="@drawable/shape_edit_bg"-->
+<!--                        android:paddingStart="@dimen/dp_15"-->
+<!--                        android:text="@={fragSettingVm.expiredTime}" />-->
+
+<!--                </com.google.android.material.textfield.TextInputLayout>-->
+
+
 
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -117,6 +123,44 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginHorizontal="@dimen/dp_30"
+                    android:layout_marginTop="@dimen/dp_22"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/saveAccounts"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/teal_700"
+                        android:text="提交账户到服务器"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/sp_15" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="输入密钥">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/token"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_60"
+                        android:layout_marginHorizontal="@dimen/dp_10"
+                        android:layout_marginVertical="@dimen/dp_10"
+                        android:background="@drawable/shape_edit_bg"
+                        android:paddingStart="@dimen/dp_15"
+                        android:text="@={fragSettingVm.token}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -137,30 +181,6 @@
                         android:textSize="@dimen/sp_15" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:layout_marginHorizontal="@dimen/dp_30"
-                    android:layout_marginTop="@dimen/dp_22"
-                    android:orientation="horizontal">
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/saveAction"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@color/teal_700"
-                        android:text="保存其他配置"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/sp_15" />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"

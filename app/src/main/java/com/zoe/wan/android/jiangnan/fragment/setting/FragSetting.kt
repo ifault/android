@@ -2,6 +2,7 @@ package com.zoe.wan.android.fragment.settting
 
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.SPUtils
+import com.blankj.utilcode.util.ToastUtils
 import com.zoe.wan.android.jiangnan.R
 import com.zoe.wan.android.jiangnan.BR
 import com.zoe.wan.android.jiangnan.common.Constants
@@ -27,14 +28,20 @@ class FragSetting : BaseFragment<FragmentSettingBinding, SettingViewModel>() {
     }
 
     override fun initViewData() {
-        binding?.saveAction?.setOnClickListener {
+        binding?.saveAccounts?.setOnClickListener {
+            LogUtils.d("保存配置")
+            LoadingUtils.showLoading()
+            SPUtils.getInstance().put(Constants.SP_SETTINGS_TOKEN, binding?.fragSettingVm?.token?.get())
+            viewModel?.addAccount()
+        }
+
+        binding?.saveSetting?.setOnClickListener {
             LogUtils.d("保存配置")
             LoadingUtils.showLoading()
             SPUtils.getInstance().put(Constants.SP_SETTINGS_SERVER, binding?.fragSettingVm?.server?.get())
-            SPUtils.getInstance().put(Constants.SP_SETTINGS_TOKEN, binding?.fragSettingVm?.token?.get())
             SPUtils.getInstance().put(Constants.SP_SETTINGS_PASSWORD, binding?.fragSettingVm?.password?.get())
-            SPUtils.getInstance().put(Constants.SP_SETTINGS_EXPIRED_TIME, binding?.fragSettingVm?.expiredTime?.get() ?: "1")
-            viewModel?.addAccount()
+            LoadingUtils.dismiss()
+            ToastUtils.showLong("保存成功")
         }
 
         binding?.clearAccounts?.setOnClickListener{

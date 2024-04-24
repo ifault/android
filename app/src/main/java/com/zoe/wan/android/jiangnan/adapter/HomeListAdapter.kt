@@ -1,6 +1,7 @@
 package com.zoe.wan.android.jiangnan.adapter
 
 import android.view.ViewGroup
+import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.zoe.wan.android.jiangnan.R
 import com.zoe.wan.android.jiangnan.databinding.ItemHomeListBinding
@@ -30,7 +31,9 @@ class HomeListAdapter : BaseRecyclerAdapter<HomeListItemData?, BaseViewHolder<*>
     }
 
     fun notifyCollectChange(position: Int, status: Int = -1) {
+        LogUtils.d("notifyCollectChange")
         if (getDataList()?.isEmpty() == true) {
+            notifyDataSetChanged()
             return
         }
         getDataList()?.get(position)?.status = status
@@ -42,11 +45,7 @@ class HomeListAdapter : BaseRecyclerAdapter<HomeListItemData?, BaseViewHolder<*>
         BaseViewHolder<ItemHomeListBinding>(itemDatabind)
 
     override fun getItemViewType(position: Int): Int {
-        if (HeaderCount != 0 && position < HeaderCount) {
-            return ItemTypeBannerHeader
-        } else {
-            return ItemTypeList
-        }
+        return 1
     }
 
     override fun getViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
